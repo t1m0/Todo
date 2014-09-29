@@ -1,0 +1,49 @@
+<div id="todos">
+ <accordion close-others="true">
+ <div ng-repeat="todo in todos">
+  <accordion-group ng-show="todo.priority == 'HIGH'" class="panel-danger" heading="{{todo.title}}"> {{todo.description}} </accordion-group>
+  <accordion-group ng-show="todo.priority == 'MEDIUM'" class="panel-warning" heading="{{todo.title}}"> {{todo.description}} </accordion-group>
+  <accordion-group ng-hide="todo.priority == 'MEDIUM' || todo.priority == 'HIGH'" class="panel-success" heading="{{todo.title}}">
+  {{todo.description}} </accordion-group>
+ </div>
+ </accordion>
+
+</div>
+<div id="pagination">
+ <ul class="pagination">
+  <li ng-hide="currentPage == 0"><a ui-sref="index({id:currentPage-1})">&laquo;</a></li>
+  <li class="disabled" ng-show="currentPage == 0"><a>&laquo;</a></li>
+  <li ng-repeat="p in getNumber(pages)"><a ui-sref="index({id:{{p}}})">{{p}}</a></li>
+  <li ng-hide="currentPage >= pages-1"><a ui-sref="index({id:currentPage+1})">&raquo;</a></li>
+  <li class="disabled" ng-show="currentPage >= pages-1"><a>&raquo;</a></li>
+ </ul>
+</div>
+<div id="new">
+ <h2>New Todo</h2>
+ <form class="form-inline" role="form">
+  <!-- Title -->
+  <div class="form-group">
+   <label class="sr-only" for="title">Title</label> <input type="text" class="form-control" id="title" placeholder="title" ng-model="newTodo.title">
+  </div>
+  <!-- Description -->
+  <div class="form-group">
+   <label class="sr-only" for="description">Description</label><input type="text" class="form-control" id="description" placeholder="description" ng-model="newTodo.description">
+  </div>
+  <!-- Dropdown -->
+  <div class="form-group">
+   <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownPriority" data-toggle="dropdown">
+     {{newTodo.priority}} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownPriority">
+     <li role="presentation" ng-repeat="priority in priorities"><a role="menuitem" tabindex="-1" href="" ng-click="setPriority(priority)">{{priority}}</a>
+     </li>
+    </ul>
+   </div>
+  </div>
+  <!-- Submit button -->
+  <div class="form-group">
+   <button type="button" class="btn btn-default" ng-click="saveTodo()">save</button>
+  </div>
+ </form>
+</div>
